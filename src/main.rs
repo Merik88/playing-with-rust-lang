@@ -1,3 +1,12 @@
+use std::fmt;
+
+impl fmt::Display for Matrix {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        writeln!(f, "( {} {} )", self.0, self.1)?;
+        write!(f, "( {} {} )", self.2, self.3)
+    }
+}
+
 // Tuples can be used as function arguments and as return values
 fn reverse(pair: (i32, bool)) -> (bool, i32) {
     // `let` can be used to bind the members of a tuple to variables
@@ -41,6 +50,6 @@ fn main() {
     println!("{:?}, {:?}, {:?}, {:?}", a, b, c, d);
 
     let matrix = Matrix(1.1, 1.2, 2.1, 2.2);
-    println!("{:?}", matrix)
+    println!("{}", matrix)
 
 }

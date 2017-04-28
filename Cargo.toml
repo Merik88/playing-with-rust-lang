@@ -1,0 +1,6 @@
+[package]
+name = "playing-with-rust-lang"
+version = "0.1.0"
+authors = ["Markus Eriksson <markus.eriksson@nepa.com>"]
+
+[dependencies]

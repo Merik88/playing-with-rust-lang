@@ -1,3 +1,26 @@
+fn rect_area(rectangle: Rectangle) -> f32 {
+    let Rectangle {
+        p1: Point { x: x1, y: y1 },
+        p2: Point { x: x2, y: y2 },
+    } = rectangle;
+
+    let width = x1 - x2;
+    let height = y2 - y1;
+
+    width * height
+}
+
+fn square(point: Point, length: f32) -> Rectangle {
+    let Point { x: my_x, y: my_y } = point;
+    Rectangle {
+        p1: point,
+        p2: Point {
+            x: my_x + length,
+            y: my_y + length,
+        },
+    }
+}
+
 // A unit struct
 struct Nil;
 
@@ -5,6 +28,7 @@ struct Nil;
 struct Pair(i32, f32);
 
 // A struct with two fields
+#[derive(Debug)]
 struct Point {
     x: f32,
     y: f32,
@@ -12,6 +36,7 @@ struct Point {
 
 // Structs can be reused as fields of another struct
 #[allow(dead_code)]
+#[derive(Debug)]
 struct Rectangle {
     p1: Point,
     p2: Point,
@@ -46,4 +71,9 @@ fn main() {
     let Pair(integer, decimal) = pair;
 
     println!("pair contains {:?} and {:?}", integer, decimal);
+
+    println!("_rectagle area is {:.2}", rect_area(_rectangle));
+
+    let my_point = Point { x: 0.1, y: 0.1};
+    println!("{:?}", square(my_point,0.1));
 }

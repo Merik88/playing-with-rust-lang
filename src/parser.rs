@@ -1,26 +1,26 @@
 use lexer::Token;
 
 #[derive(Debug)]
-pub struct AST {
+pub struct Ast {
     t: String,
-    b: Vec<Expression>,
+    pub b: Vec<Expression>,
 }
 
 #[derive(Debug)]
-struct Expression {
+pub struct Expression {
     t: String,
-    n: String,
-    a: Vec<Argument>,
+    pub n: String,
+    pub a: Vec<Argument>,
 }
 
 #[derive(Debug)]
-struct Argument {
+pub struct Argument {
     t: String,
-    v: String,
+    pub v: String,
 }
 
-pub fn parser(mut tokens: Vec<Token>) -> AST {
-    let mut ast: AST = AST { t: String::from("Drawing"), b: Vec::<Expression>::new() };
+pub fn parser(mut tokens: Vec<Token>) -> Ast {
+    let mut ast = Ast { t: String::from("Drawing"), b: Vec::<Expression>::new() };
     tokens.reverse();
     while !tokens.is_empty() {
         let current_token = tokens.pop().unwrap();

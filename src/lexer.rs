@@ -1,7 +1,7 @@
 #[derive(Debug)]
 pub struct Token {
-    t: String,
-    v: String,
+    pub t: String,
+    pub v: String,
 }
 
 pub fn lexer(code: String) -> Vec<Token> {

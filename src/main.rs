@@ -2,19 +2,10 @@ mod lexer;
 mod parser;
 mod transformer;
 mod generator;
+mod compiler;
 
 fn main() {
-    let string = String::from("Paper 100");
-
-    let tokens = lexer::lexer(string);
-    println!("{:?}", tokens);
-
-    let ast = parser::parser(tokens);
-    println!("{:?}", ast);
-
-    let svg_ast = transformer::transformer(ast);
-    println!("{:?}", svg_ast);
-
-    let svg = generator::generator(svg_ast);
-    println!("{:?}", svg);
+    let code = "Paper 0 Pen 100 Line 0 50 100 50".to_string();
+    let svg = compiler::compile(code);
+    println!("{}", svg);
 }

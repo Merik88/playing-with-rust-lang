@@ -3,32 +3,32 @@ use parser::Ast;
 #[derive(Debug)]
 pub struct SvgAst {
     tag: String,
-    attr: Attr1,
+    pub attr: Attr1,
     pub body: Vec<Element>,
 }
 
 #[derive(Debug)]
-struct Attr1 {
-    width: i32,
-    height: i32,
-    viewbox: String,
-    xmlns: String,
-    version: String,
+pub struct Attr1 {
+    pub width: i32,
+    pub height: i32,
+    pub viewbox: String,
+    pub xmlns: String,
+    pub version: String,
 }
 
 #[derive(Debug)]
-struct Attr2 {
-    x: i32,
-    y: i32,
-    width: i32,
-    height: i32,
-    fill: String,
+pub struct Attr2 {
+    pub x: i32,
+    pub y: i32,
+    pub width: i32,
+    pub height: i32,
+    pub fill: String,
 }
 
 #[derive(Debug)]
 pub struct Element {
-    tag: String,
-    attr: Attr2,
+    pub tag: String,
+    pub attr: Attr2,
 }
 
 pub fn transformer(mut ast: Ast) -> SvgAst {
@@ -44,7 +44,7 @@ pub fn transformer(mut ast: Ast) -> SvgAst {
         body: Vec::<Element>::new(),
     };
 
-    let mut pen_color = 100;
+    let mut _pen_color = 100;
 
     while !ast.b.is_empty() {
         let node = ast.b.pop().unwrap();
@@ -60,7 +60,7 @@ pub fn transformer(mut ast: Ast) -> SvgAst {
                 svg_ast.body.push(ele);
             },
             "Pen" => {
-                pen_color = 100 - node.a[0].v.parse::<i32>().unwrap();
+                _pen_color = 100 - node.a[0].v.parse::<i32>().unwrap();
             },
             "Line" => {},
             _ => continue,

@@ -1,0 +1,6 @@
+[package]
+name = "pokedex"
+version = "0.1.0"
+authors = ["Markus Eriksson <markus.eriksson@nepa.com>"]
+
+[dependencies]

@@ -1,0 +1,6 @@
+[package]
+name = "point-of-sale"
+version = "0.1.0"
+authors = ["markus.eriksson"]
+
+[dependencies]

@@ -1,7 +1,7 @@
 use std::env;
 
 fn main() {
-    let args: Vec<String> = env::args().collect();
+    let args: Vec<String> = env::args().skip(1).collect();
     let keyboard_word =  String::from(" World!");
     println!("{:?}", append_keyboard_word_to_list_of_words(args, keyboard_word));
 }

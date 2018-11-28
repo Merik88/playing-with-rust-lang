@@ -25,6 +25,10 @@ fn append_keyboard_word_to_list_of_words(words: Vec<String>, keyboard_words: Vec
     new_words
 }
 
+fn generate_words_from_keyboard_layout(keyboard_layout: Vec<String>, strategy: String, word_length: i32) -> Vec<String> {
+    keyboard_layout
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -58,5 +62,15 @@ mod tests {
             String::from("Mackisqwe"), String::from("Mackis123"), String::from("Mackisasd")
         ];
         assert_eq!(expected_appended_word, append_keyboard_word_to_list_of_words(words, keyboard_words));
+    }
+    
+    #[test]
+    fn generate_one_word_of_3_char_horizontally_from_keyboard_layout() {
+        
+        let keyboard_layout = vec!["qwe".to_string()];
+        let strategy = "horizontal".to_string();
+        let word_length = 3;
+        
+        assert_eq!(vec!["qwe".to_string()], generate_words_from_keyboard_layout(keyboard_layout, strategy, word_length));
     }
 }

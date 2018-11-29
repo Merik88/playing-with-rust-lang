@@ -25,8 +25,15 @@ fn append_keyboard_word_to_list_of_words(words: Vec<String>, keyboard_words: Vec
     new_words
 }
 
-fn generate_words_from_keyboard_layout(keyboard_layout: Vec<String>, strategy: String, word_length: i32) -> Vec<String> {
-    keyboard_layout
+fn generate_words_from_keyboard_layout(keyboard_layout: Vec<String>, _strategy: String, word_length: i32) -> Vec<String> {
+    let mut generated_words: Vec<String> = Vec::new();
+    let first_row_chars_count = keyboard_layout[0].chars().count();
+    
+    for i in 0..first_row_chars_count+1-word_length as usize {
+        generated_words.push(keyboard_layout[0].chars().skip(i).take(word_length as usize).collect());
+    }
+    
+    generated_words
 }
 
 #[cfg(test)]
@@ -72,7 +79,22 @@ mod tests {
         let word_length = 3;
         
         let generated_words = generate_words_from_keyboard_layout(keyboard_layout, strategy, word_length);
+        
         assert_eq!(word_length as usize, generated_words[0].chars().count());
         assert_eq!(vec!["qwe".to_string()], generated_words);
+    }
+    
+    #[test]
+    fn generate_3_words_of_3_char_horizontally_from_keyboard_layout() {
+        
+        let keyboard_layout = vec!["qwert".to_string()];
+        let strategy = "horizontal".to_string();
+        let word_length = 3;
+        
+        let generated_words = generate_words_from_keyboard_layout(keyboard_layout, strategy, word_length);
+        
+        let expected_words = vec!["qwe".to_string(), "wer".to_string(), "ert".to_string()];
+        assert!(generated_words.iter().all(|item| item.chars().count() == word_length as usize));
+        assert_eq!(expected_words, generated_words);
     }
 }

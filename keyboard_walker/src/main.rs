@@ -1,5 +1,9 @@
 use std::env;
 
+enum Strategy {
+    Horizontal,
+}
+
 fn main() {
     let args: Vec<String> = env::args().skip(1).collect();
     let keyboard_word =  vec![String::from(" World!")];
@@ -25,13 +29,18 @@ fn append_keyboard_word_to_list_of_words(words: Vec<String>, keyboard_words: Vec
     new_words
 }
 
-fn generate_words_from_keyboard_layout(keyboard_layout: Vec<String>, _strategy: String, word_length: usize) -> Vec<String> {
+fn generate_words_from_keyboard_layout(keyboard_layout: Vec<String>, _strategy: Strategy, word_length: usize) -> Vec<String> {
     let mut generated_words: Vec<String> = Vec::new();
-    let first_row_chars_count = keyboard_layout[0].chars().count();
-    let iterate_to = first_row_chars_count+1-word_length;
     
-    for i in 0..iterate_to {
-        generated_words.push(keyboard_layout[0].chars().skip(i).take(word_length).collect());
+    match _strategy {
+        Strategy::Horizontal => {
+            let first_row_chars_count = keyboard_layout[0].chars().count();
+            let iterate_to = first_row_chars_count+1-word_length;
+
+            for i in 0..iterate_to {
+                generated_words.push(keyboard_layout[0].chars().skip(i).take(word_length).collect());
+            }
+        }
     }
     
     generated_words
@@ -76,7 +85,7 @@ mod tests {
     fn generate_one_word_of_3_char_horizontally_from_keyboard_layout() {
         
         let keyboard_layout = vec!["qwe".to_string()];
-        let strategy = "horizontal".to_string();
+        let strategy = Strategy::Horizontal;
         let word_length = 3;
         
         let generated_words = generate_words_from_keyboard_layout(keyboard_layout, strategy, word_length);
@@ -89,7 +98,7 @@ mod tests {
     fn generate_3_words_of_3_char_horizontally_from_keyboard_layout() {
         
         let keyboard_layout = vec!["qwert".to_string()];
-        let strategy = "horizontal".to_string();
+        let strategy = Strategy::Horizontal;
         let word_length = 3;
         
         let generated_words = generate_words_from_keyboard_layout(keyboard_layout, strategy, word_length);

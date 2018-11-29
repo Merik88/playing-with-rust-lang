@@ -71,6 +71,8 @@ mod tests {
         let strategy = "horizontal".to_string();
         let word_length = 3;
         
-        assert_eq!(vec!["qwe".to_string()], generate_words_from_keyboard_layout(keyboard_layout, strategy, word_length));
+        let generated_words = generate_words_from_keyboard_layout(keyboard_layout, strategy, word_length);
+        assert_eq!(word_length as usize, generated_words[0].chars().count());
+        assert_eq!(vec!["qwe".to_string()], generated_words);
     }
 }

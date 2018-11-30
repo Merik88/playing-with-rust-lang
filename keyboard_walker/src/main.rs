@@ -181,6 +181,16 @@ mod tests {
     }
     
     #[test]
+    fn create_a_new_keyboard_layout_with_horizontal_strategy_should_handle_jagged_rows() {
+        
+        let keyboard_layout = vec!["qwerty".to_string(), "asd".to_string(), "zxcvbn".to_string()];
+        
+        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Horizontal);
+        
+        assert_eq!("qwertyasdzxcvbn".to_string(), created_keyboard_layout);
+    }
+    
+    #[test]
     fn create_a_new_keyboard_layout_with_vertical_strategy_should_handle_1_row() {
         
         let keyboard_layout = vec!["1234".to_string()];
@@ -198,5 +208,15 @@ mod tests {
         let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Vertical);
         
         assert_eq!("1qaz2wsx3edc4rfv5tgb6yhn".to_string(), created_keyboard_layout);
+    }
+    
+    #[test]
+    fn create_a_new_keyboard_layout_with_vertical_strategy_should_handle_jagged_rows() {
+        
+        let keyboard_layout = vec!["qwerty".to_string(), "asd".to_string(), "zxcvbn".to_string()];
+        
+        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Vertical);
+        
+        assert_eq!("qazwsxedcrvtbyn".to_string(), created_keyboard_layout);
     }
 }

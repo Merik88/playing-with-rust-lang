@@ -41,8 +41,7 @@ fn create_keyboard_layout(keyboard_layout: Vec<String>, strategy: Strategy) -> S
     }
 }
 
-fn generate_words_from_keyboard_layout(keyboard_layout: Vec<String>, strategy: Strategy, word_length: usize) -> Vec<String> {
-    let keyboard_layout_with_strategy = create_keyboard_layout(keyboard_layout, strategy);
+fn generate_words_from_keyboard_layout(keyboard_layout_with_strategy: String, word_length: usize) -> Vec<String> {
     
     let iterate_to = keyboard_layout_with_strategy.chars().count() + 1 - word_length;
 
@@ -94,26 +93,24 @@ mod tests {
     }
     
     #[test]
-    fn generate_one_word_of_3_char_horizontally_from_keyboard_layout() {
+    fn generate_one_word_of_3_char_from_keyboard_layout() {
         
-        let keyboard_layout = vec!["qwe".to_string()];
-        let strategy = Strategy::Horizontal;
+        let keyboard_layout = "qwe".to_string();
         let word_length = 3;
         
-        let generated_words = generate_words_from_keyboard_layout(keyboard_layout, strategy, word_length);
+        let generated_words = generate_words_from_keyboard_layout(keyboard_layout, word_length);
         
         assert_eq!(word_length, generated_words[0].chars().count());
         assert_eq!(vec!["qwe".to_string()], generated_words);
     }
     
     #[test]
-    fn generate_3_words_of_3_char_horizontally_from_keyboard_layout() {
+    fn generate_3_words_of_3_char_from_keyboard_layout() {
         
-        let keyboard_layout = vec!["qwert".to_string()];
-        let strategy = Strategy::Horizontal;
+        let keyboard_layout = "qwert".to_string();
         let word_length = 3;
         
-        let generated_words = generate_words_from_keyboard_layout(keyboard_layout, strategy, word_length);
+        let generated_words = generate_words_from_keyboard_layout(keyboard_layout, word_length);
         
         let expected_words = vec!["qwe".to_string(), "wer".to_string(), "ert".to_string()];
         assert!(generated_words.iter().all(|item| item.chars().count() == word_length));
@@ -121,13 +118,12 @@ mod tests {
     }
     
     #[test]
-    fn generate_multiple_words_of_3_char_horizontally_from_multiple_row_keyboard_layout() {
+    fn generate_multiple_words_of_3_char_from_keyboard_layout() {
         
-        let keyboard_layout = vec!["qwerty".to_string(), "asdfgh".to_string(), "zxcvbn".to_string()];
-        let strategy = Strategy::Horizontal;
+        let keyboard_layout = "qwertyasdfghzxcvbn".to_string();
         let word_length = 3;
         
-        let generated_words = generate_words_from_keyboard_layout(keyboard_layout, strategy, word_length);
+        let generated_words = generate_words_from_keyboard_layout(keyboard_layout, word_length);
         
         let first_word = "qwe".to_string();
         let last_word = "vbn".to_string();
@@ -135,5 +131,15 @@ mod tests {
         assert!(generated_words.iter().all(|item| item.chars().count() == word_length));
         assert!(generated_words.contains(&first_word));
         assert!(generated_words.contains(&last_word));
+    }
+    
+    #[test]
+    fn create_a_new_keyboard_layout_with_horizontal_strategy() {
+        
+        let keyboard_layout = vec!["qwerty".to_string(), "asdfgh".to_string(), "zxcvbn".to_string()];
+        
+        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Horizontal);
+        
+        assert_eq!("qwertyasdfghzxcvbn".to_string(), created_keyboard_layout);
     }
 }

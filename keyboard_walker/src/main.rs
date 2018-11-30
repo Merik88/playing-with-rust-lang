@@ -29,10 +29,10 @@ fn append_keyboard_word_to_list_of_words(words: Vec<String>, keyboard_words: Vec
     new_words
 }
 
-fn generate_words_from_keyboard_layout(keyboard_layout: Vec<String>, _strategy: Strategy, word_length: usize) -> Vec<String> {
+fn generate_words_from_keyboard_layout(keyboard_layout: Vec<String>, strategy: Strategy, word_length: usize) -> Vec<String> {
     let mut generated_words: Vec<String> = Vec::new();
     
-    match _strategy {
+    match strategy {
         Strategy::Horizontal => {
             let first_row_chars_count = keyboard_layout[0].chars().count();
             let iterate_to = first_row_chars_count+1-word_length;

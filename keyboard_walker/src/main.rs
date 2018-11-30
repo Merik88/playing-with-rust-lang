@@ -2,6 +2,7 @@ use std::env;
 
 enum Strategy {
     Horizontal,
+    Vertical,
 }
 
 fn main() {
@@ -37,6 +38,32 @@ fn create_keyboard_layout(keyboard_layout: Vec<String>, strategy: Strategy) -> S
         Strategy::Horizontal => {
             keyboard_layout.iter()
                 .fold(String::with_capacity(string_capacity), |mut sum, item| { sum.push_str(item); sum })
+        },
+        Strategy::Vertical => {
+            let string_length_max = keyboard_layout.iter()
+                .fold(0, |count, item| { 
+                    let new_count = item.chars().count();
+                    if count < new_count { 
+                        new_count
+                    } else {
+                        count 
+                    }
+                });
+            let vector_length = keyboard_layout.iter().count();
+            
+            let mut sum = String::with_capacity(string_capacity);
+            
+            for i in 0..string_length_max {
+                for j in 0..vector_length {
+                    let item: String = keyboard_layout[j].chars()
+                        .skip(i)
+                        .take(1)
+                        .collect();
+                    sum.push_str(&item)
+                }
+            }
+            
+            sum
         }
     }
 }
@@ -134,12 +161,42 @@ mod tests {
     }
     
     #[test]
-    fn create_a_new_keyboard_layout_with_horizontal_strategy() {
+    fn create_a_new_keyboard_layout_with_horizontal_strategy_should_handle_1_row() {
         
-        let keyboard_layout = vec!["qwerty".to_string(), "asdfgh".to_string(), "zxcvbn".to_string()];
+        let keyboard_layout = vec!["1234".to_string()];
         
         let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Horizontal);
         
-        assert_eq!("qwertyasdfghzxcvbn".to_string(), created_keyboard_layout);
+        assert_eq!("1234".to_string(), created_keyboard_layout);
+    }
+    
+    #[test]
+    fn create_a_new_keyboard_layout_with_horizontal_strategy_should_handle_4_rows() {
+        
+        let keyboard_layout = vec!["123456".to_string(), "qwerty".to_string(), "asdfgh".to_string(), "zxcvbn".to_string()];
+        
+        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Horizontal);
+        
+        assert_eq!("123456qwertyasdfghzxcvbn".to_string(), created_keyboard_layout);
+    }
+    
+    #[test]
+    fn create_a_new_keyboard_layout_with_vertical_strategy_should_handle_1_row() {
+        
+        let keyboard_layout = vec!["1234".to_string()];
+        
+        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Vertical);
+        
+        assert_eq!("1234".to_string(), created_keyboard_layout);
+    }
+    
+    #[test]
+    fn create_a_new_keyboard_layout_with_vertical_strategy_should_handle_4_rows() {
+        
+        let keyboard_layout = vec!["123456".to_string(), "qwerty".to_string(), "asdfgh".to_string(), "zxcvbn".to_string()];
+        
+        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Vertical);
+        
+        assert_eq!("1qaz2wsx3edc4rfv5tgb6yhn".to_string(), created_keyboard_layout);
     }
 }

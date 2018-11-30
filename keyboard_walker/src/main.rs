@@ -132,6 +132,18 @@ mod tests {
     }
     
     #[test]
+    fn generate_one_word_of_6_char_from_keyboard_layout() {
+        
+        let keyboard_layout = "qwerty".to_string();
+        let word_length = 6;
+        
+        let generated_words = generate_words_from_keyboard_layout(keyboard_layout, word_length);
+        
+        assert_eq!(word_length, generated_words[0].chars().count());
+        assert_eq!(vec!["qwerty".to_string()], generated_words);
+    }
+    
+    #[test]
     fn generate_3_words_of_3_char_from_keyboard_layout() {
         
         let keyboard_layout = "qwert".to_string();

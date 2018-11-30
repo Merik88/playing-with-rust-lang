@@ -30,40 +30,55 @@ fn append_keyboard_word_to_list_of_words(words: Vec<String>, keyboard_words: Vec
     new_words
 }
 
+fn get_keyboard_layout_string_capacity(keyboard_layout: &Vec<String>) -> usize {
+    keyboard_layout.iter()
+        .fold(0, |count, keyboard_layout_row| count + keyboard_layout_row.len())
+}
+
+fn create_horizontal_keyboard_layout(keyboard_layout: Vec<String>) -> String {
+    let string_capacity = get_keyboard_layout_string_capacity(&keyboard_layout);
+    let initial_string = String::with_capacity(string_capacity);
+    
+    keyboard_layout.iter()
+        .fold(initial_string, |mut sum, item| { sum.push_str(item); sum })
+}
+
+fn create_vertical_keyboard_layout(keyboard_layout: Vec<String>) -> String {
+    let string_capacity = get_keyboard_layout_string_capacity(&keyboard_layout);
+    let mut initial_string = String::with_capacity(string_capacity);
+    
+    let string_length_max = keyboard_layout.iter()
+        .fold(0, |count, item| { 
+            let new_count = item.chars().count();
+            if count < new_count { 
+                new_count
+            } else {
+                count 
+            }
+        });
+    let vector_length = keyboard_layout.iter().count();
+    
+    for i in 0..string_length_max {
+        for j in 0..vector_length {
+            let item: String = keyboard_layout[j].chars()
+                .skip(i)
+                .take(1)
+                .collect();
+            initial_string.push_str(&item)
+        }
+    }
+    
+    initial_string
+}
+
 fn create_keyboard_layout(keyboard_layout: Vec<String>, strategy: Strategy) -> String {
-    let string_capacity = keyboard_layout.iter()
-        .fold(0, |count, keyboard_layout_row| count + keyboard_layout_row.len());
     
     match strategy {
         Strategy::Horizontal => {
-            keyboard_layout.iter()
-                .fold(String::with_capacity(string_capacity), |mut sum, item| { sum.push_str(item); sum })
+            create_horizontal_keyboard_layout(keyboard_layout)
         },
         Strategy::Vertical => {
-            let string_length_max = keyboard_layout.iter()
-                .fold(0, |count, item| { 
-                    let new_count = item.chars().count();
-                    if count < new_count { 
-                        new_count
-                    } else {
-                        count 
-                    }
-                });
-            let vector_length = keyboard_layout.iter().count();
-            
-            let mut sum = String::with_capacity(string_capacity);
-            
-            for i in 0..string_length_max {
-                for j in 0..vector_length {
-                    let item: String = keyboard_layout[j].chars()
-                        .skip(i)
-                        .take(1)
-                        .collect();
-                    sum.push_str(&item)
-                }
-            }
-            
-            sum
+            create_vertical_keyboard_layout(keyboard_layout)
         }
     }
 }

@@ -6,7 +6,7 @@ enum Strategy {
 
 fn main() {
     let args: Vec<String> = env::args().skip(1).collect();
-    let keyboard_word =  vec![String::from(" World!")];
+    let keyboard_word = vec![String::from(" World!")];
     let new_words = append_keyboard_word_to_list_of_words(args, keyboard_word);
     for new_word in new_words.iter() {
         println!("{}", new_word);
@@ -29,17 +29,20 @@ fn append_keyboard_word_to_list_of_words(words: Vec<String>, keyboard_words: Vec
     new_words
 }
 
-fn generate_words_from_keyboard_layout(keyboard_layout: Vec<String>, strategy: Strategy, word_length: usize) -> Vec<String> {
-    let keyboard_layout_with_strategy: String;
+fn create_keyboard_layout(keyboard_layout: Vec<String>, strategy: Strategy) -> String {
     let string_capacity = keyboard_layout.iter()
         .fold(0, |count, keyboard_layout_row| count + keyboard_layout_row.len());
     
     match strategy {
         Strategy::Horizontal => {
-            keyboard_layout_with_strategy = keyboard_layout.iter()
-                .fold(String::with_capacity(string_capacity), |mut sum, item| { sum.push_str(item); sum });
+            keyboard_layout.iter()
+                .fold(String::with_capacity(string_capacity), |mut sum, item| { sum.push_str(item); sum })
         }
     }
+}
+
+fn generate_words_from_keyboard_layout(keyboard_layout: Vec<String>, strategy: Strategy, word_length: usize) -> Vec<String> {
+    let keyboard_layout_with_strategy = create_keyboard_layout(keyboard_layout, strategy);
     
     let iterate_to = keyboard_layout_with_strategy.chars().count() + 1 - word_length;
 

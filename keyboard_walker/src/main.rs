@@ -30,18 +30,20 @@ fn append_keyboard_word_to_list_of_words(words: Vec<String>, keyboard_words: Vec
 }
 
 fn generate_words_from_keyboard_layout(keyboard_layout: Vec<String>, strategy: Strategy, word_length: usize) -> Vec<String> {
-    let mut generated_words: Vec<String> = Vec::new();
     let keyboard_layout_with_strategy: String;
+    let string_capacity = keyboard_layout.iter()
+        .fold(0, |count, keyboard_layout_row| count + keyboard_layout_row.len());
     
     match strategy {
         Strategy::Horizontal => {
             keyboard_layout_with_strategy = keyboard_layout.iter()
-                .fold(String::new(), |mut sum, item| { sum.push_str(item); sum });
+                .fold(String::with_capacity(string_capacity), |mut sum, item| { sum.push_str(item); sum });
         }
     }
     
     let iterate_to = keyboard_layout_with_strategy.chars().count() + 1 - word_length;
 
+    let mut generated_words: Vec<String> = Vec::new();
     for i in 0..iterate_to {
         let word = keyboard_layout_with_strategy.chars()
             .skip(i)
@@ -113,5 +115,22 @@ mod tests {
         let expected_words = vec!["qwe".to_string(), "wer".to_string(), "ert".to_string()];
         assert!(generated_words.iter().all(|item| item.chars().count() == word_length));
         assert_eq!(expected_words, generated_words);
+    }
+    
+    #[test]
+    fn generate_multiple_words_of_3_char_horizontally_from_multiple_row_keyboard_layout() {
+        
+        let keyboard_layout = vec!["qwerty".to_string(), "asdfgh".to_string(), "zxcvbn".to_string()];
+        let strategy = Strategy::Horizontal;
+        let word_length = 3;
+        
+        let generated_words = generate_words_from_keyboard_layout(keyboard_layout, strategy, word_length);
+        
+        let first_word = "qwe".to_string();
+        let last_word = "vbn".to_string();
+        assert!(generated_words.iter().count() > 2);
+        assert!(generated_words.iter().all(|item| item.chars().count() == word_length));
+        assert!(generated_words.contains(&first_word));
+        assert!(generated_words.contains(&last_word));
     }
 }

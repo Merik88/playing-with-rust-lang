@@ -13,9 +13,10 @@ enum Strategy {
 fn main() {
     
     if env::args().count() < 4 {
-        println!("1 arg: length of the generated word");
+        println!("1 arg: length of the generated keyboard word");
         println!("2 arg: kayboard walk strategy (Horizontal or Vertical)");
         println!("3 arg: words to append to");
+        println!("Example: 3 Horizontal firstword secondword thirdword");
         return;
     }
     
